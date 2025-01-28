@@ -1,7 +1,13 @@
 from abc import ABC, abstractmethod
+import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s',
+                    level=logging.INFO,
+                    handlers=[logging.FileHandler("task_2.log"),
+                              logging.StreamHandler()])
 
 class Book:
-    def __init__(self, title, author, year):
+    def __init__(self, title: str, author: str, year: str):
         self.title = title
         self.author = author
         self.year = year
@@ -15,7 +21,7 @@ class LibraryInterface(ABC):
         pass
 
     @abstractmethod
-    def remove_book(self, title):
+    def remove_book(self, title: str):
         pass
 
     @abstractmethod
@@ -26,10 +32,10 @@ class Library(LibraryInterface):
     def __init__(self):
         self.books = []
 
-    def add_book(self, book):
+    def add_book(self, book: Book):
         self.books.append(book)
 
-    def remove_book(self, title):
+    def remove_book(self, title: str):
         for book in self.books:
             if  book.title == title:
                 self.books.remove(book)
@@ -43,10 +49,10 @@ class LibraryManager:
     def __init__(self, library: LibraryInterface):
         self. library = library
 
-    def add_book(self, title, author, year):
+    def add_book(self, title: str, author: str, year: str):
         self.library.add_book(Book(title, author, year))
 
-    def remove_book(self, title):
+    def remove_book(self, title: str):
         self.library.remove_book(title)
 
     def show_books(self):
@@ -73,7 +79,7 @@ def main():
             case "exit":
                 break
             case _:
-                print("Invalid command. Please try again.")
+                logging.info("Invalid command. Please try again.")
 
 if __name__ == "__main__":
     main()
